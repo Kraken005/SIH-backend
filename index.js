@@ -87,41 +87,43 @@ app.get('/', (req, res) => {
     res.sendFile(filePath);
 });
 
-app.get("/video", function (req, res) {
-  // Ensure there is a range given for the video
-  const range = req.headers.range;
-  if (!range) {
-    res.status(400).send("Requires Range header");
-  }
 
-  // get video stats (about 61MB)
-  const videoPath = "C:\\Users\\HP\\Downloads\\output (14).mp4";
-  const videoSize = fs.statSync("C:\\Users\\HP\\Downloads\\output (14).mp4").size;
 
-  // Parse Range
-  // Example: "bytes=32324-"
-  const CHUNK_SIZE = 10 ** 6; // 1MB
-  const start = Number(range.replace(/\D/g, ""));
-  const end = Math.min(start + CHUNK_SIZE, videoSize - 1);
+// app.get("/video", function (req, res) {
+//   // Ensure there is a range given for the video
+//   const range = req.headers.range;
+//   if (!range) {
+//     res.status(400).send("Requires Range header");
+//   }
 
-  // Create headers
-  const contentLength = end - start + 1;
-  const headers = {
-    "Content-Range": `bytes ${start}-${end}/${videoSize}`,
-    "Accept-Ranges": "bytes",
-    "Content-Length": contentLength,
-    "Content-Type": "video/mp4",
-  };
+//   // get video stats (about 61MB)
+//   const videoPath = "C:\\Users\\HP\\Downloads\\output (14).mp4";
+//   const videoSize = fs.statSync("C:\\Users\\HP\\Downloads\\output (14).mp4").size;
 
-  // HTTP Status 206 for Partial Content
-  res.writeHead(206, headers);
+//   // Parse Range
+//   // Example: "bytes=32324-"
+//   const CHUNK_SIZE = 10 ** 6; // 1MB
+//   const start = Number(range.replace(/\D/g, ""));
+//   const end = Math.min(start + CHUNK_SIZE, videoSize - 1);
 
-  // create video read stream for this particular chunk
-  const videoStream = fs.createReadStream(videoPath, { start, end });
+//   // Create headers
+//   const contentLength = end - start + 1;
+//   const headers = {
+//     "Content-Range": `bytes ${start}-${end}/${videoSize}`,
+//     "Accept-Ranges": "bytes",
+//     "Content-Length": contentLength,
+//     "Content-Type": "video/mp4",
+//   };
 
-  // Stream the video chunk to the client
-  videoStream.pipe(res);
-});
+//   // HTTP Status 206 for Partial Content
+//   res.writeHead(206, headers);
+
+//   // create video read stream for this particular chunk
+//   const videoStream = fs.createReadStream(videoPath, { start, end });
+
+//   // Stream the video chunk to the client
+//   videoStream.pipe(res);
+// });
 
 app.post('/convert', (req, res) => {
     let to = req.body.to;
@@ -191,8 +193,10 @@ app.post('/convert', (req, res) => {
 });
 
 app.get("/video", function (req, res) {
+  res.sendFile(path.join(__dirname, 'video.html'));
   // Ensure there is a range given for the video
-  const range = req.headers.range;
+  //const range = req.headers.range;
+  range = 'byte=0-999';
   if (!range) {
     res.status(400).send("Requires Range header");
   }
