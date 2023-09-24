@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Base64 to Image Converter</title>
+</head>
+<body>
+    <h1>Base64 to Image Converter</h1>
+    
+    <form action="/transform" method="POST" enctype="multipart/form-data">
+        <label for="base64Data">Enter Base64 Data:</label>
+        <textarea name="base64Data" id="base64Data" rows="5" cols="40" required></textarea>
+        <br>
+        <input type="submit" value="Convert">
+    </form>
+</body>
+</html>
